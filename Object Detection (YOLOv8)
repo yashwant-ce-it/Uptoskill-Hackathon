@@ -1,0 +1,38 @@
+from ultralytics import YOLO
+import cv2
+
+model = YOLO("yolov8n.pt")  # nano model = fastest for real-time
+
+MOBILE_IP = "http://192.168.1.5:8080/video"
+cap = cv2.VideoCapture(MOBILE_IP)
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    results = model(frame)
+
+    detected_objects = []
+    for result in results:
+        for box in result.boxes:
+            cls_id = int(box.cls[0])
+            label = model.names[cls_id]
+            confidence = float(box.conf[0])
+
+            if confidence > 0.5:
+                detected_objects.append(label)
+
+            # Draw bounding boxes
+            x1, y1, x2, y2 = map(int, box.xyxy[0])
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            cv2.putText(frame, f"{label} {confidence:.2f}",
+                       (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                       0.6, (0, 255, 0), 2)
+
+    cv2.imshow("VisionAid Detection", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
