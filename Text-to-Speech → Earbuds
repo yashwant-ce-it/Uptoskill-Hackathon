@@ -1,0 +1,24 @@
+import pyttsx3
+import threading
+import time
+
+# Initialize TTS Engine
+engine = pyttsx3.init()
+engine.setProperty('rate', 160)    # Speed of speech
+engine.setProperty('volume', 1.0)  # Max volume
+
+last_spoken = {}  # Avoid repeating same object too fast
+COOLDOWN = 3      # Seconds between same object announcements
+
+def speak_object(label):
+    current_time = time.time()
+    if label not in last_spoken or \
+       (current_time - last_spoken[label]) > COOLDOWN:
+        last_spoken[label] = current_time
+        # Run TTS in background thread (non-blocking)
+        thread = threading.Thread(
+            target=lambda: (engine.say(f"{label} detected"),
+                          engine.runAndWait())
+        )
+        thread.daemon = True
+        thread.start()
