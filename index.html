@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionAid AI - Smart Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="AI Object Detection and Audio Feedback for Visually Impaired">
+</head>
+<body>
+    <!-- Background Animated Gradient -->
+    <div class="blob-cont">
+        <div class="yellow blob"></div>
+        <div class="red blob"></div>
+        <div class="green blob"></div>
+    </div>
+
+    <!-- Main Glassmorphism Container -->
+    <div class="glass-container">
+        
+        <header>
+            <div class="header-content">
+                <h1>Vision<span class="highlight">Aid</span> AI</h1>
+                <p>VisionAid-AI is a systematic AI-based system for blind people which works with the YOLO and pyttsx3 models.</p>
+            </div>
+            
+            <button id="activate-audio" class="pulse-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                <span>Activate Assistant</span>
+            </button>
+        </header>
+
+        <div class="dashboard">
+            <!-- Video Feed Section -->
+            <div class="feed-section glass-panel">
+                <div class="feed-header">
+                    <span class="live-indicator"></span>
+                    <h2>Live Camera Feed</h2>
+                </div>
+                <div class="video-container">
+                    <!-- The img tag sources the MJPEG stream -->
+                    <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Live YOLOv8 Object Detection Stream">
+                    <div class="overlay-scan"></div>
+                </div>
+            </div>
+
+            <!-- Detections Section -->
+            <div class="info-section">
+                <div class="glass-panel detections-panel">
+                    <h2>Currently Seeing</h2>
+                    <ul id="detections-list" class="detections-list">
+                        <li class="empty-state">No objects detected. Waiting for stream...</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-panel status-panel">
+                    <h2>System Status</h2>
+                    <div class="status-item">
+                        <span class="status-label">Model Engine:</span>
+                        <span class="status-value highlight">YOLOv8 Nano</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Frontend Audio:</span>
+                        <span class="status-value" id="audio-status">Standby</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel settings-panel">
+                    <h2>Settings & Controls</h2>
+                    <div class="settings-item">
+                        <label for="stream-input" class="status-label">Camera Source (IP or 0):</label>
+                        <div class="input-group">
+                            <input type="text" id="stream-input" value="0" class="glass-input" placeholder="e.g. http://192.168.1.5:8080/video or 0">
+                            <button id="update-stream-btn" class="glass-button">Update</button>
+                        </div>
+                    </div>
+                    <div class="settings-item toggle-item">
+                        <span class="status-label">Backend Audio (Server Speak):</span>
+                        <label class="switch">
+                            <input type="checkbox" id="backend-audio-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Project Section -->
+        <div class="glass-panel about-section">
+            <div class="about-content">
+                <h2>About VisionAid</h2>
+                <p>VisionAid is an advanced AI and Machine Learning project specifically designed for visually impaired individuals. It utilizes cutting-edge YOLOv8 object detection paired with a mobile IP camera or wearable device (like a smart watch) to perceive the surrounding environment in real-time. By processing this visual data instantly, VisionAid provides rapid auditory feedback through connected earbuds or directly from the device, announcing the names of detected objects and potential obstacles. This enables greater independence, spatial awareness, and safety in navigating daily life.</p>
+            </div>
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='smart_watch_blind.png') }}" alt="Concept Smart Watch for Visually Impaired">
+            </div>
+        </div>
+
+    </div>
+
+    <script src=</script>
+</body>
+</html>
